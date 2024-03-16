@@ -81,10 +81,6 @@ const fn bstr_to_u32(v: &[u8]) -> Option<u32> {
     }
 }
 #[inline]
-const fn str_to_u32(v: &str) -> Option<u32> {
-    bstr_to_u32(v.as_bytes())
-}
-#[inline]
 const fn bstr_to_char(v: &[u8]) -> Option<char> {
     let v = q!(bstr_to_u32(v));
     char::from_u32(v)

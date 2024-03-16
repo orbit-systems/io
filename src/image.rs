@@ -33,12 +33,12 @@ impl FontImage {
         let (rel_width, rel_height) = (width / WIDTH, height / HEIGHT);
         (0..(rel_width * rel_height))
             .filter_map(|i| {
+                const TOLERANCE: u8 = 4;
+                const INV_TOLERANCE: u8 = 255 - TOLERANCE;
                 let char = char::from_u32(self.start as u32 + i)?;
                 let (rel_x, rel_y) = (i % rel_width, i / rel_width);
                 let (start_x, start_y) = (rel_x * WIDTH, rel_y * HEIGHT);
                 let mut data = [0u8; 12];
-                const TOLERANCE: u8 = 4;
-                const INV_TOLERANCE: u8 = 255 - TOLERANCE;
                 for y in 0..HEIGHT {
                     for x in 0..WIDTH {
                         let (abs_x, abs_y) = (x + start_x, y + start_y);
@@ -65,9 +65,6 @@ pub(crate) struct Glyph {
     pub(crate) data: [u8; 12],
 }
 impl Glyph {
-    const fn as_bytes(&self) -> &[u8; 16] {
-        unsafe { std::mem::transmute(self) }
-    }
     pub(crate) const fn to_bytes(self) -> [u8; 16] {
         if cfg!(target_endian = "big") {
             let [b0, b1, b2, b3] = (self.char as u32).to_le_bytes();

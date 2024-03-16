@@ -1,7 +1,3 @@
-use std::cmp::min;
-
-const NAME_LIMIT: usize = 14;
-
 macro_rules! g {
     ($arr: expr, $i: literal) => {{
         if $i < $arr.len() {
