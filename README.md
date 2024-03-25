@@ -5,7 +5,15 @@
 The image files get included in the compiled binary. Simply running the code should output the file at `/target/io.abf`.
 
 Files should be named `src_U+X` where X is the starting codepoint of the glyph. The glyph data is assumed to be contiguious.
-Any glyph with a color other than black / white is assumed to be a skipped glyph, and is conventionally represented by filling the rectangle with red.
+Any glyph with a color other than black / white is assumed to be a skipped glyph.
+
+These colors are used as a convention:
+
+| color | meaning         |
+|-------|-----------------|
+| red   | empty codepoint |
+| green | unrepresentable |
+| blue  | to do           |
 
 To add a file, first add the file itself, then modify the source code at [/src/main.rs](/src/main.rs):
 ```rs
@@ -35,9 +43,9 @@ The binary format is divided into 16 byte chunks. A chunk represents a glyph exc
 
 ## Name format
 
-|    0    |             1..14             |    15   |
-|---------|-------------------------------|---------|
-| (empty) | name (ascii, null terminated) | (empty) |
+|        0        |             1..14             |    15   |
+|-----------------|-------------------------------|---------|
+| format byte (0) | name (ascii, null terminated) | (empty) |
 
 ## Glyph format
 
@@ -45,4 +53,4 @@ The binary format is divided into 16 byte chunks. A chunk represents a glyph exc
 |-----------|--------|
 | codepoint |  rows  |
 
-where a byte represents a row.
+where a byte represents a row. (The least significant bit corresponds to the left most pixel.)
