@@ -7,7 +7,15 @@ use std::{fs::File, io::Write};
 
 use image::FontImage;
 use name::name;
-const FILES: &[FontImage] = &files!["00"];
+const FILES: &[FontImage] = &files![
+    "0000",
+    "0370",
+    "2000",
+    "2500",
+    "2800",
+    "FB00",
+    "FF60",
+];
 const OUT: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/target/io.abf");
 const NAME: [u8; 16] = name("Io");
 
